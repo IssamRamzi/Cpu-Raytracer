@@ -75,7 +75,6 @@ class Vector3:
         compz = self.x * vector.y - self.y * vector.x
         return Vector3(compx, compy, compz)
     
-     # produit
     def normalize(self):
         return self / self.length()
     

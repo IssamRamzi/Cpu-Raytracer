@@ -4,6 +4,7 @@ from Core.ray import Ray
 from Display.ppmwriter import PPMWriter
 
 from Core.sphere import *
+from Core.plane import *
 
 class Camera:
     def __init__(self, img_width, aspect_ratio) -> None:
