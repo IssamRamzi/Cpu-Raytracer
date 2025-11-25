@@ -48,6 +48,10 @@ class Vector3:
             return Vector3(self.x / another.x, self.y / another.y, self.z / another.z)
         elif isinstance(another, (int, float)):
             return Vector3(self.x / another, self.y / another, self.z / another)
+        
+    # négation
+    def __neg__(self):
+        return Vector3(-self.x, -self.y, -self.z)
 
     # affichage
     def __str__(self):

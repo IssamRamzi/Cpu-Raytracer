@@ -1,7 +1,9 @@
 from Math.vector import Point3, Vector3, Color3
 from Core.primitives import hit_sphere
 from Core.ray import Ray
-from Display.PPMWriter import PPMWriter
+from Display.ppmwriter import PPMWriter
+
+from Core.sphere import *
 
 class Camera:
     def __init__(self, img_width, aspect_ratio) -> None:
@@ -14,15 +16,18 @@ class Camera:
         self._pixel_delta_v = None
         self._img_ro_render = []
 
-    def ray_color(self, ray):
-        t = hit_sphere(Vector3(0,0,-1), 0.5, ray)
-        if t:
-            N = (ray.at(t) - Vector3(0,0,-1)).normalize()
+    def ray_color(self, ray, world):
+        rec = HitRecord()
+        if world.hit(ray, 0.001, float('inf'), rec):
+            N = rec.normal
             return 0.5 * Color3(N.x + 1, N.y + 1, N.z + 1)
-
-        unit_dir = ray.direction.normalize()
-        a = 0.5 * (unit_dir.y + 1.0)
-        return (1.0 - a) * Color3(1,1,1) + a * Color3(0.5, 0.7, 1.0)
+            # return 0.5 * Color3(N.x + 1, N.y + 1, N.z + 1)
+        
+        unit_direction = ray.direction.normalize()
+        t = 0.5 * (unit_direction.y + 1.0)
+        white = Color3(1.0, 1.0, 1.0)
+        blue = Color3(0.5, 0.7, 1.0)
+        return (1.0 - t) * white + t * blue
 
     def initialize_camera(self):
         self._img_height = int(self._img_width / self._aspect_ratio)
@@ -47,7 +52,7 @@ class Camera:
             writer.write_image(self._img_ro_render)
 
 
-    def render(self):
+    def render(self, world):
         #TODO: add hittables abstraction layer to primitives
         self.initialize_camera()
         
@@ -57,7 +62,7 @@ class Camera:
                 pixel_center = self._pixel00_loc + (i+0.5)*self._pixel_delta_u + (j+0.5)*self._pixel_delta_v
                 ray_direction = pixel_center - self._center
                 r = Ray(self._center, ray_direction)
-                row.append(self.ray_color(r))
+                row.append(self.ray_color(r, world))
             self._img_ro_render.append(row)
 
         self.write_img_to_file()
