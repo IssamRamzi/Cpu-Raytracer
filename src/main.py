@@ -1,13 +1,14 @@
 from Math import Vector3, Color3, Point3
 from Display import PPMWriter
-from Core import Ray
-
-import random
+from Core import *
 
 def ray_color(r : Ray) -> Color3:
+    if(hit_sphere(Vector3(0,0,-1), 0.5, r)):
+        return Color3(1,0,0)
     unit_dir = r.direction.normalize()
     a = 0.5 * (unit_dir.y + 1.0)
     return (1.0 - a) * Color3(1,1,1) + a * Color3(0.5, 0.7, 1.0)
+
 
 # Camera and image Setup
 # Source : https://raytracing.github.io/images/fig-1.04-pixel-grid.jpg
