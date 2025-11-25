@@ -9,7 +9,7 @@ class Vector3:
         self.z = z
 
     # addition vector + another
-    def __add__(self, another) -> Vector3:
+    def __add__(self, another):
         if isinstance(another, Vector3):
             return Vector3(self.x + another.x, self.y + another.y, self.z + another.z)
         elif isinstance(another, (int, float)):
@@ -20,7 +20,7 @@ class Vector3:
         return self.__add__(another)
     
     # soustration
-    def __sub__(self, another) -> Vector3:
+    def __sub__(self, another):
         if isinstance(another, Vector3):
             return Vector3(self.x - another.x, self.y - another.y, self.z - another.z)
         elif isinstance(another, (int, float)):
@@ -33,7 +33,7 @@ class Vector3:
             return Vector3(another - self.x, another - self.y, another - self.z)
     
     # multiplication
-    def __mul__(self, another) -> Vector3:
+    def __mul__(self, another):
         if isinstance(another, Vector3):
             return Vector3(self.x * another.x, self.y * another.y, self.z * another.z)
         elif isinstance(another, (int, float)):
@@ -43,7 +43,7 @@ class Vector3:
         return self.__mul__(another)
 
     # division
-    def __truediv__(self, another) -> Vector3:
+    def __truediv__(self, another):
         if isinstance(another, Vector3):
             return Vector3(self.x / another.x, self.y / another.y, self.z / another.z)
         elif isinstance(another, (int, float)):
@@ -61,11 +61,11 @@ class Vector3:
         return self.x*self.x + self.y*self.y + self.z*self.z
     
     # produit scalaire
-    def dot(self, vector : Vector3):
+    def dot(self, vector):
         return self.x * vector.x + self.y * vector.y + self.z * vector.z
     
     # produit
-    def cross(self, vector : Vector3):
+    def cross(self, vector):
         compx = self.y * vector.z - self.z * vector.y
         compy = self.z * vector.x - self.x * vector.z
         compz = self.x * vector.y - self.y * vector.x

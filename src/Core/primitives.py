@@ -1,4 +1,4 @@
-from Math import *
+from Math.vector import *
 from .ray import Ray
 from math import sqrt
 
