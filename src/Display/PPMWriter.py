@@ -1,7 +1,6 @@
 import io
+from Utils.colors import write_color
 
-def _clamp(x):
-    return max(0.0, min(x, 1.0))
 
 class PPMWriter:
     def __init__(self, width : int, height : int, output_stream : io.TextIOBase):
@@ -9,7 +8,6 @@ class PPMWriter:
         self.height = height
         self.output : io.TextIOBase = output_stream
         self._write_header()
-
 
     def _write_header(self):
         # P3
@@ -23,14 +21,7 @@ class PPMWriter:
         for row in image:
             # pixel : Vector3
             for pixel in row:
-                r = _clamp(pixel.x)
-                g = _clamp(pixel.y)
-                b = _clamp(pixel.z)
-                ir = int(255.999 * r)
-                ig = int(255.999 * g)
-                ib = int(255.999 * b)
-
-                self.output.write(f"{ir} {ig} {ib} ")
+                write_color(self.output, pixel)
             self.output.write("\n")
 
 
