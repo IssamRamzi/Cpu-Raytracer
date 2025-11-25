@@ -1,10 +1,14 @@
-from Math import Vector3, Color3, Point3
-from Display import PPMWriter
-from Core import *
+from Math.vector import Vector3, Color3, Point3
+from Display.ppmwriter import PPMWriter
+from Core.ray import Ray
+from Core.primitives import hit_sphere
 
 def ray_color(r : Ray) -> Color3:
-    if(hit_sphere(Vector3(0,0,-1), 0.5, r)):
-        return Color3(1,0,0)
+    t = hit_sphere(Vector3(0,0,-1), 0.5, r)
+    if t:
+        N = (r.at(t) - Vector3(0,0,-1)).normalize()
+        return 0.5 * Color3(N.x + 1, N.y + 1, N.z + 1)
+
     unit_dir = r.direction.normalize()
     a = 0.5 * (unit_dir.y + 1.0)
     return (1.0 - a) * Color3(1,1,1) + a * Color3(0.5, 0.7, 1.0)
