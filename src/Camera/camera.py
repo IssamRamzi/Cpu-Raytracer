@@ -1,11 +1,12 @@
-from Math.vector import Point3, Vector3, Color3
+from math import trunc
+from Math.vector import Point3, Vector3, Color3, random_on_hemisphere
 from Core.primitives import hit_sphere
 from Core.ray import Ray
 from Display.PPMWriter import PPMWriter
 import random
 
 class Camera:
-    def __init__(self, img_width, aspect_ratio, samples_per_pixel) -> None:
+    def __init__(self, img_width, aspect_ratio, samples_per_pixel, max_ray_bounces) -> None:
         self._img_width = img_width
         self._aspect_ratio = aspect_ratio
         self._img_height = 0
@@ -16,6 +17,7 @@ class Camera:
         self._img_ro_render = []
         self._samples_per_pixel = samples_per_pixel
         self._pixel_sample_scale = None
+        self._max_ray_bounces = max_ray_bounces
 
     def sample_square(self):
         return Vector3(random.random() - 0.5, random.random() - 0.5, 0)
@@ -27,11 +29,19 @@ class Camera:
         ray_direction = pixel_sample - ray_origin
         return Ray(ray_origin, ray_direction)
 
-    def ray_color(self, ray):
+    def ray_color(self, ray, max_bounce_count):
+        if self._max_ray_bounces <= 0: 
+            return Color3(0, 0, 0)
+
         t = hit_sphere(Vector3(0,0,-1), 0.5, ray)
-        if t:
-            N = (ray.at(t) - Vector3(0,0,-1)).normalize()
-            return 0.5 * Color3(N.x + 1, N.y + 1, N.z + 1)
+        if t > 0.001:
+            point = ray.at(t)
+            normal = (point - Vector3(0, 0, -1)).normalize()
+            vec_direction = random_on_hemisphere(normal)
+            new_ray = Ray(point, vec_direction)
+            return 0.5 * self.ray_color(new_ray, max_bounce_count - 1)
+            #N = (ray.at(t) - Vector3(0,0,-1)).normalize()
+            #return 0.5 * Color3(N.x + 1, N.y + 1, N.z + 1)
 
         unit_dir = ray.direction.normalize()
         a = 0.5 * (unit_dir.y + 1.0)
@@ -72,7 +82,7 @@ class Camera:
                 color = Color3(0, 0, 0)
                 for sample in range(self._samples_per_pixel):
                     ray = self.get_ray(i, j)
-                    color += self.ray_color(ray)
+                    color += self.ray_color(ray, self._max_ray_bounces)
                     print(f"Sampling : {sample}")
 
                 #pixel_center = self._pixel00_loc + (i+0.5)*self._pixel_delta_u + (j+0.5)*self._pixel_delta_v

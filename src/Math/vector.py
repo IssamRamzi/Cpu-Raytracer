@@ -1,4 +1,5 @@
 import math
+import random
 
 # Source : https://raytracing.github.io/books/RayTracingInOneWeekend.html#thevec3class
 
@@ -14,6 +15,9 @@ class Vector3:
             return Vector3(self.x + another.x, self.y + another.y, self.z + another.z)
         elif isinstance(another, (int, float)):
             return Vector3(self.x + another, self.y + another, self.z + another)
+
+    def __neg__(self):
+        return Vector3(-self.x, -self.y, -self.z)
 
     # another + vector
     def __radd__(self, another):
@@ -64,7 +68,6 @@ class Vector3:
             self.z += another
         return self
 
-
     # longueur
     def length(self):
         return math.sqrt(self.x*self.x + self.y*self.y + self.z*self.z)
@@ -86,5 +89,31 @@ class Vector3:
      # produit
     def normalize(self):
         return self / self.length()
+    
+    @staticmethod
+    def random_vec(min_val=0.0, max_val=0.0):
+        if max_val == 0.0 and min_val == 0.0:
+            return Vector3(random.random(), random.random(), random.random())
+        else:
+            return Vector3(random.uniform(min_val, max_val),
+                           random.uniform(min_val, max_val),
+                           random.uniform(min_val, max_val))
+
+    @staticmethod
+    def random_unit_vec():
+        while True:
+            p = Vector3.random_vec(-1, 1)
+            len_squared = p.length_squared()
+            if (1e-160 < len_squared and len_squared <= 1):
+                return p / math.sqrt(len_squared)
+
+def random_on_hemisphere(normal):
+    on_unit_sphere = Vector3.random_unit_vec()
+    if on_unit_sphere.dot(normal) > 0.0:
+        return on_unit_sphere
+    else:
+        return -on_unit_sphere
+
+
     
 Point3 = Color3 = Vector3
