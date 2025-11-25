@@ -53,6 +53,18 @@ class Vector3:
     def __str__(self):
         return f"({self.x}, {self.y}, {self.z})"
 
+    def __iadd__(self, another):
+        if isinstance(another, Vector3):
+            self.x += another.x
+            self.y += another.y
+            self.z += another.z
+        elif isinstance(self, (int, float)):
+            self.x += another
+            self.y += another
+            self.z += another
+        return self
+
+
     # longueur
     def length(self):
         return math.sqrt(self.x*self.x + self.y*self.y + self.z*self.z)
