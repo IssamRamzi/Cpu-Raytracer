@@ -39,7 +39,7 @@ class Camera:
 
         rec = HitRecord()
         if world.hit(ray, 0.001, float('inf'), rec):
-            vec_direction = random_on_hemisphere(rec.normal)
+            vec_direction = rec.normal + Vector3.random_unit_vec()
             new_ray = Ray(rec.point, vec_direction)
             return 0.5 * self.ray_color(new_ray, world, max_bounce_count - 1)
 
