@@ -3,7 +3,7 @@ from Primitives.primitives import *
 from Core.material import *
 import sys
 from Utils.config_loader import ConfigLoader
-from Core.object_factory import MaterialFactory
+from Core.object_factory import MaterialFactory, PrimitiveFactory
 
 import time
 
@@ -11,23 +11,37 @@ SAMPLES_PER_PIXEL = 10
 CAMERA_WIDTH = 400
 
 def process(config, output):
-    
+    config_loader = ConfigLoader(config)
+    camera = config_loader.get_camera()
 
-    material_ground = Lambertian(Color3(0.8, 0.3, 0.3))
-    material_center = Lambertian(Color3(0.1, 0.2, 0.1))
-    material_left   = Metal(Color3(0.8, 0.8, 0.8))
-    material_right  = Metal(Color3(0.8, 0.6, 0.2))
-
+    materials_config = config_loader.get_materials()
+    primitives_config = config_loader.get_primitives()
+    material_map = {}
+    for mat_data in materials_config:
+        mat_id = mat_data["id"]
+        material = MaterialFactory.create(mat_data)
+        material_map[mat_id] = material
 
     world = HittableList()
-    world.add(Sphere(Point3(0,-100.5,-3), 100, material_ground))
-    world.add(Sphere(Point3(0.0,0,-1.0), 0.5, material_center))
-    world.add(Sphere(Point3(1.5,0,-2.0), 0.5, material_left))
-    world.add(Sphere(Point3(-1.5,0,-2.0), 0.5, material_right))
-    # world.add(Plane(Point3(-2, -.8, -4), Vector3(1.5 * 3, 0, 0), Vector3(0, 1 * 3, 0)))
+    for prim_data in primitives_config:
+        mat_id = prim_data["material"]
+        if mat_id not in material_map:
+            raise ValueError(f"Material '{mat_id}' not found for primitive {prim_data}")
+        material = material_map[mat_id]
+        primitive = PrimitiveFactory.create(prim_data, material)
+        if primitive is None:
+            raise ValueError(f"Primitive creation failed for {prim_data}")
+        world.add(primitive)
 
-    camera = Camera(camera["width"], (16.0 / 9.0), samples_per_pixel=camera["samples_per_pixel"], max_ray_bounces=50) # you guys can change the last variable for sampling rate, 5 is already high in python
-    camera.render(world, output = output)
+    camera = Camera(CAMERA_WIDTH,
+                    (16.0 / 9.0),
+                    samples_per_pixel=SAMPLES_PER_PIXEL,
+                    max_ray_bounces=50,
+                    vfov=20,
+                    vup=Vector3(0, 1, 0),
+                    lookfrom=Point3(-2, 2, 1),
+                    lookat=Point3(0, 0, -1)) # you guys can change the last variable for sampling rate, 5 is already high in python
+    camera.render(world, output = "src/Results/Sortie_1600x900_150.ppm")
 
 if __name__ == "__main__": # for args we'll have : args[1] = config_file_path, and args[2] = output_path.ppm
     args = sys.argv

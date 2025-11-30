@@ -117,8 +117,12 @@ class Vector3:
 
     # https://raytracing.github.io/images/fig-1.15-reflection.jpg
     @staticmethod
-    def reflect(v : Vector3, n : Vector3):
+    def reflect(v, n):
         return v - 2 * v.dot(n) * n
+
+    @staticmethod
+    def unit_vector(v):
+        return v / v.length()
 
 
 def random_on_hemisphere(normal):
