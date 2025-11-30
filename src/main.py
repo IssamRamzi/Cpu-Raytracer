@@ -39,8 +39,9 @@ def process(config, output):
                     max_ray_bounces=50,
                     vfov=20,
                     vup=Vector3(0, 1, 0),
-                    lookfrom=Point3(-2, 2, 1),
-                    lookat=Point3(0, 0, -1)) # you guys can change the last variable for sampling rate, 5 is already high in python
+                    lookfrom=Point3(26, 3, 6),
+                    lookat=Point3(0, 2, 0),
+                    background=Color3(0.0, 0.0, 0.0)) # you guys can change the last variable for sampling rate, 5 is already high in python
     camera.render(world, output = output)
 
 if __name__ == "__main__": # for args we'll have : args[1] = config_file_path, and args[2] = output_path.ppm
