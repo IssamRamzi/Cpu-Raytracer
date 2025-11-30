@@ -12,7 +12,7 @@ CAMERA_WIDTH = 400
 
 def process(config, output):
     config_loader = ConfigLoader(config)
-    camera = config_loader.get_camera()
+    camera_cfg = config_loader.get_camera()
 
     materials_config = config_loader.get_materials()
     primitives_config = config_loader.get_primitives()
@@ -33,14 +33,14 @@ def process(config, output):
             raise ValueError(f"Primitive creation failed for {prim_data}")
         world.add(primitive)
 
-    camera = Camera(CAMERA_WIDTH,
+    camera = Camera(camera_cfg["width"],
                     (16.0 / 9.0),
-                    samples_per_pixel=SAMPLES_PER_PIXEL,
+                    samples_per_pixel=camera_cfg["samples_per_pixel"],
                     max_ray_bounces=50,
-                    vfov=20,
+                    vfov=90,
                     vup=Vector3(0, 1, 0),
-                    lookfrom=Point3(-2, 2, 1),
-                    lookat=Point3(0, 0, -1)) # you guys can change the last variable for sampling rate, 5 is already high in python
+                    lookfrom=Point3(0,2, 0),
+                    lookat=Point3(0, 0, -3)) # you guys can change the last variable for sampling rate, 5 is already high in python
     camera.render(world, output = output)
 
 if __name__ == "__main__": # for args we'll have : args[1] = config_file_path, and args[2] = output_path.ppm
