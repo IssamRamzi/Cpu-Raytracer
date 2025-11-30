@@ -1,0 +1,76 @@
+
+
+{   
+    "camera":{
+        "width": 400,
+        "samples_per_pixel": 100
+    },
+
+    "materials": [
+        {
+            "id": "Red",
+            "type": "Lambertian",
+            "color": [0.65, 0.05, 0.05]
+        },
+        {
+            "id": "White",
+            "type": "Lambertian",
+            "color": [0.73, 0.73, 0.73]
+        },
+        {
+            "id": "Green",
+            "type": "Lambertian",
+            "color": [0.12, 0.45, 0.15]
+        },
+        {
+            "id": "Light",
+            "type": "DiffuseLight",
+            "color": [15, 15, 15]
+        }
+    ],
+
+    "primitives": [
+    {
+        "type": "Plane",
+        "bot_left": [555, 0, 0],
+        "x_vector": [0, 555, 0],
+        "y_vector": [0,0,555],
+        "material": "Green"
+    },
+    {
+        "type": "Plane",
+        "bot_left": [0, 0, 0],
+        "x_vector": [0, 555, 0],
+        "y_vector": [0,0,555],
+        "material": "Red"
+    },
+    {
+        "type": "Plane",
+        "bot_left": [0, 0, 0],
+        "x_vector": [555, 0, 0],
+        "y_vector": [0,0,555],
+        "material": "White"
+    },
+    {
+        "type": "Plane",
+        "bot_left": [555, 555, 555],
+        "x_vector": [-555, 0, 0],
+        "y_vector": [0,0,-555],
+        "material": "White"
+    },
+    {
+        "type": "Plane",
+        "bot_left": [0,0, 555],
+        "x_vector": [555, 0, 0],
+        "y_vector": [0,555,0],
+        "material": "White"
+    },
+    {
+        "type": "Plane",
+        "bot_left": [343, 554, 332],
+        "x_vector": [-130, 0, 0],
+        "y_vector": [0,0,-105],
+        "material": "Light"
+    }
+]
+}

@@ -7,8 +7,8 @@ from Core.object_factory import MaterialFactory, PrimitiveFactory
 
 import time
 
-SAMPLES_PER_PIXEL = 10
-CAMERA_WIDTH = 400
+SAMPLES_PER_PIXEL = 100
+CAMERA_WIDTH = 600
 
 def process(config, output):
     config_loader = ConfigLoader(config)
@@ -37,10 +37,11 @@ def process(config, output):
                     (16.0 / 9.0),
                     samples_per_pixel=camera_cfg["samples_per_pixel"],
                     max_ray_bounces=50,
-                    vfov=90,
+                    vfov=40,
                     vup=Vector3(0, 1, 0),
-                    lookfrom=Point3(0,2, 0),
-                    lookat=Point3(0, 0, -3)) # you guys can change the last variable for sampling rate, 5 is already high in python
+                    lookfrom=Point3(278, 278, -800),
+                    lookat=Point3(278, 278, 0),
+                    background=Color3(0.0, 0.0, 0.0)) # you guys can change the last variable for sampling rate, 5 is already high in python
     camera.render(world, output = output)
 
 if __name__ == "__main__": # for args we'll have : args[1] = config_file_path, and args[2] = output_path.ppm

@@ -13,6 +13,9 @@ class MaterialFactory:
         elif mat_type == "Metal":
             return MetalCreator.create(params)
 
+        elif mat_type == "DiffuseLight":
+            return DiffuseLightCreator.create(params)
+
         raise ValueError(f"Unknown material type: {mat_type}")
 
 
@@ -28,8 +31,13 @@ class MetalCreator:
     def create(params):
         c = params["color"]
         return Metal(Color3(c[0], c[1], c[2]))
-    
 
+class DiffuseLightCreator:
+    @staticmethod
+    def create(params):
+        c = params["color"]
+        return DiffuseLight(Color3(c[0], c[1], c[2]))
+    
 class PrimitiveFactory:
     @staticmethod
     def create(params, material):
@@ -49,7 +57,6 @@ class SphereCreator:
         center = params["center"]
         radius = params["radius"]
         return Sphere(Point3(center[0], center[1], center[2]), radius, material)
-
 
 
 class PlaneCreator:

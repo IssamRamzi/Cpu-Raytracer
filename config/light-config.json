@@ -1,0 +1,42 @@
+
+{   
+    "camera":{
+        "width": 400,
+        "samples_per_pixel": 100
+    },
+
+    "materials": [
+        {
+            "id": "Red",
+            "type": "Lambertian",
+            "color": [0.8, 0.3, 0.3]
+        },
+        {
+            "id": "Light",
+            "type": "DiffuseLight",
+            "color": [4, 4, 4]
+        }
+    ],
+
+    "primitives": [
+    {
+        "type": "Sphere",
+        "center": [0,-1000,0],
+        "radius": 1000,
+        "material": "Red"
+    },
+    {
+        "type": "Sphere",
+        "center": [0,2,0],
+        "radius": 2,
+        "material": "Red"
+    },
+    {
+        "type": "Plane",
+        "bot_left": [3, 1, -2],
+        "x_vector": [2, 0, 0],
+        "y_vector": [0,2,0],
+        "material": "Light"
+    }
+]
+}

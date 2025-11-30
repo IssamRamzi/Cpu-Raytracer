@@ -10,6 +10,8 @@ class HitRecord:
         self.distance = 0.0
         self.front_face = False
         self.material : Material = None
+        self._u = None
+        self._v = None
 
     def set_face_normal(self, r : Ray, outward_normal : Vector3):
         self.front_face = r.direction.dot(outward_normal) < 0 

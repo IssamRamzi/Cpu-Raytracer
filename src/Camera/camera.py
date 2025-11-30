@@ -10,7 +10,7 @@ import functools
 import multiprocessing
 
 class Camera:
-    def __init__(self, img_width, aspect_ratio, samples_per_pixel, max_ray_bounces, vfov, vup, lookfrom, lookat) -> None:
+    def __init__(self, img_width, aspect_ratio, samples_per_pixel, max_ray_bounces, vfov, vup, lookfrom, lookat, background) -> None:
         self._img_width = img_width
         self._aspect_ratio = aspect_ratio
         self._img_height = 0
@@ -29,6 +29,7 @@ class Camera:
         self._vup = vup
         self._lookfrom = lookfrom
         self._lookat = lookat
+        self._background = background
 
     def sample_square(self):
         return Vector3(random.random() - 0.5, random.random() - 0.5, 0)
@@ -52,20 +53,35 @@ class Camera:
 
         #     return 0.5 * self.ray_color(new_ray, world, max_bounce_count - 1)
 
-        if world.hit(ray, zeroExToInf, rec):
-            # vec_direction = random_on_hemisphere(rec.normal)
-            struct = [None, None]
-            if rec.material.scatter(ray, rec, struct):
-                attenuation = struct[0]
-                scattered = struct[1]
-                return attenuation * self.ray_color(scattered, world, max_bounce_count - 1)
-            return Color3(0,0,0)
+        if not world.hit(ray, zeroExToInf, rec):
+            return self._background
+
+        color_from_emission = rec.material.emitted(rec._u, rec._v, rec.point)
+        struct = [None, None]
+        if rec.material.scatter(ray, rec, struct):
+            attenuation = struct[0]
+            scattered = struct[1]
+            color_from_scatter = attenuation * self.ray_color(scattered, world, max_bounce_count - 1)
+            return color_from_emission + color_from_scatter
+        else:
+            return color_from_emission
 
 
 
-        unit_dir = ray.direction.normalize()
-        a = 0.5 * (unit_dir.y + 1.0)
-        return (1.0 - a) * Color3(1,1,1) + a * Color3(0.5, 0.7, 1.0)
+        #if world.hit(ray, zeroExToInf, rec):
+        #    # vec_direction = random_on_hemisphere(rec.normal)
+        #    struct = [None, None]
+        #    if rec.material.scatter(ray, rec, struct):
+        #        attenuation = struct[0]
+        #        scattered = struct[1]
+        #        return attenuation * self.ray_color(scattered, world, max_bounce_count - 1)
+        #    return Color3(0,0,0)
+
+
+
+        #unit_dir = ray.direction.normalize()
+        #a = 0.5 * (unit_dir.y + 1.0)
+        #return (1.0 - a) * Color3(1,1,1) + a * Color3(0.5, 0.7, 1.0)
 
     def process_scanlines(self, j, world):
         row_colors = []
