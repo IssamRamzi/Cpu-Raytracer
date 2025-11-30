@@ -41,5 +41,6 @@ class Plane(Hittable):
         hit_record.point = intersection
         hit_record.distance = t
         hit_record.set_face_normal(r, self.normal)
+        hit_record.material = self.material
 
         return True
