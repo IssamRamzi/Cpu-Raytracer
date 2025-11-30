@@ -2,6 +2,7 @@ from Core.hittable import Hittable, HitRecord
 from Core.ray import Ray
 from Math.vector import Vector3, Point3
 from Utils.intervals import Interval
+from Core.material import Material
 from math import sqrt
 
 
@@ -12,12 +13,13 @@ To check the intersection between the rays and the sphere we simply modify the e
                                                                                           (C − (origin + t * direction)) ⋅ (C − (origin + t * direction)) = r2 
 """
 class Sphere(Hittable):
-    def __init__(self, center : Point3, radius : float):
+    def __init__(self, center : Point3, radius : float, material : Material = None):
         super().__init__()
         self.center = center
         self.radius = radius
+        self.material = material 
 
-    def hit(self, r, interval : Interval, hit_record): # TODO : non finite recursion
+    def hit(self, r, interval : Interval, hit_record): 
         oc = self.center - r.origin
         a = r.direction.length_squared()
         half_b = r.direction.dot(oc)
@@ -43,5 +45,6 @@ class Sphere(Hittable):
         hit_record.point = r.at(hit_record.distance)
         outward_normal = (hit_record.point - self.center ) / self.radius
         hit_record.set_face_normal(r, outward_normal)
+        hit_record.material = self.material
 
         return True

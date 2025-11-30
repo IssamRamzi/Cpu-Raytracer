@@ -109,6 +109,17 @@ class Vector3:
             len_squared = p.length_squared()
             if (1e-160 < len_squared and len_squared <= 1):
                 return p / math.sqrt(len_squared)
+       
+    def near_zero(self):
+        s = 1e-8
+        return (abs(self.x) < s) and (abs(self.y) < s) and (abs(self.z) < s)
+
+
+    # https://raytracing.github.io/images/fig-1.15-reflection.jpg
+    @staticmethod
+    def reflect(v : Vector3, n : Vector3):
+        return v - 2 * v.dot(n) * n
+
 
 def random_on_hemisphere(normal):
     on_unit_sphere = Vector3.random_unit_vec()

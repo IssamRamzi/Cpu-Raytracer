@@ -2,9 +2,10 @@ from Core.hittable import Hittable, HitRecord
 from Core.ray import Ray
 from Utils.intervals import Interval
 from Math.vector import *
+from Core.material import Material
 
 class Plane(Hittable):
-    def __init__(self, bot_left : Point3, u : Vector3, v : Vector3):
+    def __init__(self, bot_left : Point3, u : Vector3, v : Vector3, material : Material = None):
         super().__init__()
         self.u = u
         self.v = v
@@ -13,6 +14,7 @@ class Plane(Hittable):
         self.bot_left = bot_left
         self._d = self.normal.dot(self.bot_left)
         self._w = normal / normal.dot(normal)
+        self.material = material 
 
     def hit(self, r : Ray, interval : Interval, hit_record : HitRecord):
         denom = self.normal.dot(r.direction)

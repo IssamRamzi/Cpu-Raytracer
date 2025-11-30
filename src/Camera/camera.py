@@ -38,12 +38,23 @@ class Camera:
             return Color3(0, 0, 0)
 
         rec = HitRecord()
+        # if world.hit(ray, zeroExToInf, rec):
+        #     # vec_direction = random_on_hemisphere(rec.normal)
+        #     vec_direction = rec.normal + Vector3.random_unit_vec()
+        #     new_ray = Ray(rec.point, vec_direction)
+
+        #     return 0.5 * self.ray_color(new_ray, world, max_bounce_count - 1)
+
         if world.hit(ray, zeroExToInf, rec):
             # vec_direction = random_on_hemisphere(rec.normal)
-            vec_direction = rec.normal + Vector3.random_unit_vec()
-            new_ray = Ray(rec.point, vec_direction)
+            struct = [None, None]
+            if rec.material.scatter(ray, rec, struct):
+                attenuation = struct[0]
+                scattered = struct[1]
+                return attenuation * self.ray_color(scattered, world, max_bounce_count - 1)
+            return Color3(0,0,0)
 
-            return 0.5 * self.ray_color(new_ray, world, max_bounce_count - 1)
+
 
         unit_dir = ray.direction.normalize()
         a = 0.5 * (unit_dir.y + 1.0)
