@@ -49,6 +49,9 @@ class PrimitiveFactory:
         elif prim_type == "Plane":
             return PlaneCreator.create(params, material)
         
+        elif prim_type == "Cube":
+            return CubeCreator.create(params, material)
+        
         raise ValueError(f"Unknown primitive type: {prim_type}")
 
 class SphereCreator:
@@ -70,4 +73,18 @@ class PlaneCreator:
             Vector3(v[0], v[1], v[2]),
             Vector3(u[0], u[1], u[2]),
             material
+        )
+
+
+class CubeCreator:
+    @staticmethod
+    def create(params, material):
+        min_corner = params["min_corner"]
+        max_corner = params["max_corner"]
+        print("")
+        return Cube(
+            Point3(min_corner[0], min_corner[1], min_corner[2]),
+            Point3(max_corner[0], max_corner[1], max_corner[2]),
+            material
+            
         )
