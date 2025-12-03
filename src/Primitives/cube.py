@@ -12,6 +12,8 @@ class Cube(Hittable):
         self.max = max_corner
         self.material = material
 
+        print("")
+
     def hit(self, r: Ray, interval: Interval, hit_record: HitRecord):
 
         t_min = interval.min_val

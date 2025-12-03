@@ -81,8 +81,10 @@ class CubeCreator:
     def create(params, material):
         min_corner = params["min_corner"]
         max_corner = params["max_corner"]
+        print("")
         return Cube(
             Point3(min_corner[0], min_corner[1], min_corner[2]),
             Point3(max_corner[0], max_corner[1], max_corner[2]),
             material
+            
         )
