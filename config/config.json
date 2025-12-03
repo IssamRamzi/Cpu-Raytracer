@@ -58,6 +58,13 @@
         "x_vector": [6, 0, 0],
         "y_vector": [0,3,0],
         "material": "Green"
-    }
+    },
+
+    {
+       "type": "Cube",
+       "material": "White",
+       "min_corner": [100, 0, -200],
+       "max_corner": [200, 100, -100]
+}
 ]
 }

@@ -71,6 +71,13 @@
         "x_vector": [-130, 0, 0],
         "y_vector": [0,0,-105],
         "material": "Light"
+    },
+    {
+        "type": "Cube",
+        "material": "White",
+        "min_corner": [200, 0, 200],
+        "max_corner": [350, 150, 350]
     }
+
 ]
 }
