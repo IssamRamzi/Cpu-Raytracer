@@ -1,0 +1,178 @@
+{
+  "camera": {
+    "width": 400,
+    "samples_per_pixel": 5000,
+    "max_ray_bounces": 20,
+    "fov": 50,
+    "up": [
+      0,
+      1,
+      0
+    ],
+    "lookfrom": [
+      5,
+      3,
+      8
+    ],
+    "lookat": [
+      0,
+      1.5,
+      0
+    ],
+    "background": [
+      0.05,
+      0.05,
+      0.15
+    ]
+  },
+  "materials": [
+    {
+      "id": "Floor",
+      "type": "Lambertian",
+      "color": [
+        0.3,
+        0.3,
+        0.35
+      ]
+    },
+    {
+      "id": "BouncingBall",
+      "type": "Lambertian",
+      "color": [
+        0.9,
+        0.3,
+        0.3
+      ]
+    },
+    {
+      "id": "BackgroundSphere1",
+      "type": "Lambertian",
+      "color": [
+        0.2,
+        0.5,
+        0.8
+      ]
+    },
+    {
+      "id": "BackgroundSphere2",
+      "type": "Lambertian",
+      "color": [
+        0.8,
+        0.5,
+        0.2
+      ]
+    },
+    {
+      "id": "BackgroundCube",
+      "type": "Lambertian",
+      "color": [
+        0.4,
+        0.8,
+        0.4
+      ]
+    },
+    {
+      "id": "Light1",
+      "type": "DiffuseLight",
+      "color": [
+        6,
+        6,
+        8
+      ]
+    },
+    {
+      "id": "Light2",
+      "type": "DiffuseLight",
+      "color": [
+        8,
+        6,
+        4
+      ]
+    }
+  ],
+  "primitives": [
+    {
+      "type": "Plane",
+      "bot_left": [
+        -15,
+        0,
+        -15
+      ],
+      "x_vector": [
+        30,
+        0,
+        0
+      ],
+      "y_vector": [
+        0,
+        0,
+        30
+      ],
+      "material": "Floor"
+    },
+    {
+      "type": "Sphere",
+      "center": [
+        0,
+        1.8202099292274005,
+        0
+      ],
+      "radius": 0.6,
+      "material": "BouncingBall"
+    },
+    {
+      "type": "Sphere",
+      "center": [
+        -3,
+        1.0,
+        -2
+      ],
+      "radius": 0.8,
+      "material": "BackgroundSphere1"
+    },
+    {
+      "type": "Sphere",
+      "center": [
+        3,
+        0.7,
+        -2
+      ],
+      "radius": 0.7,
+      "material": "BackgroundSphere2"
+    },
+    {
+      "type": "Cube",
+      "material": "BackgroundCube",
+      "min_corner": [
+        -1.5,
+        0,
+        -4
+      ],
+      "max_corner": [
+        -0.5,
+        1.2,
+        -3
+      ]
+    },
+    {
+      "type": "Sphere",
+      "center": [
+        2.934442802201417,
+        5.0,
+        0.623735072453278
+      ],
+      "radius": 0.8,
+      "material": "Light1"
+    },
+    {
+      "type": "Sphere",
+      "center": [
+        -2.934442802201417,
+        4.5,
+        -0.6237350724532772
+      ],
+      "radius": 0.7,
+      "material": "Light2"
+    }
+  ]
+}

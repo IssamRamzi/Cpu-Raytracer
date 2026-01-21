@@ -52,6 +52,9 @@ class PrimitiveFactory:
         elif prim_type == "Cube":
             return CubeCreator.create(params, material)
         
+        elif prim_type == "Cone":
+            return ConeCreator.create(params, material)
+        
         raise ValueError(f"Unknown primitive type: {prim_type}")
 
 class SphereCreator:
@@ -60,7 +63,14 @@ class SphereCreator:
         center = params["center"]
         radius = params["radius"]
         return Sphere(Point3(center[0], center[1], center[2]), radius, material)
-
+    
+class ConeCreator:
+    @staticmethod
+    def create(params, material):
+        center = params["center"]
+        radius = params["radius"]
+        height = params["height"]
+        return Cone(Point3(center[0], center[1], center[2]), radius, height, material)
 
 class PlaneCreator:
     @staticmethod

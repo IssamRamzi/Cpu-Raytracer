@@ -7,7 +7,7 @@ from Core.object_factory import MaterialFactory, PrimitiveFactory
 
 import time
 
-SAMPLES_PER_PIXEL = 100
+SAMPLES_PER_PIXEL = 500
 CAMERA_WIDTH = 600
 
 def process(config, output):
